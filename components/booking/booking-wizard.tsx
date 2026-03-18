@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useBookingStore } from '@/lib/store/booking-store';
+import type { BookingStep } from '@/lib/store/booking-store';
 import { Stepper } from '@/components/ui/stepper';
 import { StepServiceSelect } from './step-service-select';
 import { StepStaffSelect } from './step-staff-select';
@@ -18,7 +19,7 @@ interface BookingWizardProps {
 }
 
 export function BookingWizard({ slug, business }: BookingWizardProps) {
-  const { currentStep, reset, selectStaff } = useBookingStore();
+  const { currentStep, reset, selectStaff, setStep } = useBookingStore();
 
   useEffect(() => {
     reset();
@@ -33,6 +34,13 @@ export function BookingWizard({ slug, business }: BookingWizardProps) {
     }
   }, [currentStep, business.staff, selectStaff]);
 
+  const handleStepClick = useCallback(
+    (step: BookingStep) => {
+      setStep(step);
+    },
+    [setStep],
+  );
+
   if (currentStep === 'success') {
     return <BookingSuccess />;
   }
@@ -40,7 +48,7 @@ export function BookingWizard({ slug, business }: BookingWizardProps) {
   return (
     <div>
       <div className="mb-6">
-        <Stepper currentStep={currentStep} />
+        <Stepper currentStep={currentStep} onStepClick={handleStepClick} />
       </div>
 
       {currentStep === 'service' && (

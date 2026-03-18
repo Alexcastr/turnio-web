@@ -1,7 +1,6 @@
 export interface TimeSlot {
-  startTime: string;
-  endTime: string;
-  available: boolean;
+  time: string;
+  status: 'available' | 'occupied';
 }
 
 export interface AvailabilityResponse {

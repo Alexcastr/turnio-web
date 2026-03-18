@@ -46,7 +46,21 @@ export const useBookingStore = create<BookingState>((set, get) => ({
   selectedTime: null,
   contactInfo: null,
 
-  setStep: (step) => set({ currentStep: step }),
+  setStep: (step) => {
+    const targetIdx = STEP_ORDER.indexOf(step);
+    const currentIdx = STEP_ORDER.indexOf(get().currentStep);
+
+    // When navigating backwards, clear downstream selections
+    if (targetIdx < currentIdx) {
+      const clearFrom: Partial<BookingState> = { currentStep: step };
+      if (targetIdx <= STEP_ORDER.indexOf('staff')) clearFrom.selectedDate = null;
+      if (targetIdx <= STEP_ORDER.indexOf('date')) clearFrom.selectedTime = null;
+      if (targetIdx <= STEP_ORDER.indexOf('time')) clearFrom.contactInfo = null;
+      set(clearFrom);
+    } else {
+      set({ currentStep: step });
+    }
+  },
 
   selectService: (service) =>
     set({ selectedService: service, currentStep: 'staff' }),

@@ -4,6 +4,7 @@ import { useBookingStore } from '@/lib/store/booking-store';
 import { useAvailability } from '@/lib/hooks/use-availability';
 import { TimeSlotGrid } from './time-slot-grid';
 import { Skeleton } from '@/components/ui/skeleton';
+import { formatDate } from '@/lib/utils/format';
 import { ArrowLeft, AlertCircle } from 'lucide-react';
 
 interface StepTimePickProps {
@@ -42,7 +43,7 @@ export function StepTimePick({ slug }: StepTimePickProps) {
             Selecciona una hora
           </h2>
           <p className="text-sm text-text-secondary">
-            Horarios disponibles para {selectedDate}
+            Horarios para {selectedDate ? formatDate(selectedDate) : selectedDate}
             {selectedStaff && ` con ${selectedStaff.displayName || selectedStaff.name}`}
           </p>
         </div>
