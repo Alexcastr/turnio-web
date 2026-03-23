@@ -1,6 +1,6 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   appointmentFormSchema,
@@ -8,21 +8,24 @@ import {
 } from '@/lib/schemas/appointment';
 import { useBookingStore } from '@/lib/store/booking-store';
 import { Input } from '@/components/ui/input';
+import { PhoneInput } from '@/components/ui/phone-input';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
+import { DEFAULT_COUNTRY } from '@/lib/data/country-codes';
 
 export function StepContactForm() {
   const { contactInfo, setContactInfo, goBack } = useBookingStore();
 
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors },
   } = useForm<AppointmentFormValues>({
     resolver: zodResolver(appointmentFormSchema),
     defaultValues: contactInfo ?? {
       clientName: '',
-      clientPhone: '',
+      clientPhone: DEFAULT_COUNTRY.dialCode,
       clientEmail: '',
       notes: '',
     },
@@ -60,12 +63,19 @@ export function StepContactForm() {
           {...register('clientName')}
         />
 
-        <Input
-          label="Teléfono"
-          placeholder="+1 234 567 890"
-          type="tel"
-          error={errors.clientPhone?.message}
-          {...register('clientPhone')}
+        <Controller
+          name="clientPhone"
+          control={control}
+          render={({ field }) => (
+            <PhoneInput
+              label="Teléfono"
+              error={errors.clientPhone?.message}
+              value={field.value}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+              name={field.name}
+            />
+          )}
         />
 
         <Input

@@ -7,9 +7,9 @@ export const appointmentFormSchema = z.object({
     .max(100, 'El nombre es demasiado largo'),
   clientPhone: z
     .string()
-    .min(7, 'El teléfono debe tener al menos 7 dígitos')
-    .max(20, 'Teléfono inválido')
-    .regex(/^[+]?[\d\s()-]+$/, 'Formato de teléfono inválido'),
+    .check(
+      z.regex(/^\+\d{1,4}\d{7,15}$/, 'Ingresa un número de teléfono válido'),
+    ),
   clientEmail: z
     .string()
     .email('Correo electrónico inválido')
