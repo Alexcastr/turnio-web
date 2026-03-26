@@ -15,7 +15,7 @@ export default function proxy(request: NextRequest) {
   }
 
   const sessionToken =
-    request.cookies.get('admin_session')?.value;
+    request.cookies.get('better-auth.session_token')?.value;
 
   if (!sessionToken) {
     const loginUrl = new URL(LOGIN_PATH, request.url);

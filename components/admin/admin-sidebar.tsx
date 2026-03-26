@@ -46,7 +46,6 @@ export function AdminSidebar() {
 
   async function handleLogout() {
     await authClient.signOut();
-    document.cookie = 'admin_session=; path=/it-admin; max-age=0';
     router.push('/it-admin/login');
   }
 

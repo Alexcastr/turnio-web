@@ -16,12 +16,6 @@ import type {
 } from '@/lib/schemas/admin';
 
 async function getToken(): Promise<string> {
-  const cookieToken = document.cookie
-    .split('; ')
-    .find((c) => c.startsWith('admin_session='))
-    ?.split('=')[1];
-  if (cookieToken) return cookieToken;
-
   const session = await authClient.getSession();
   const token = session.data?.session?.token;
   if (!token) throw new Error('No hay sesión activa');
