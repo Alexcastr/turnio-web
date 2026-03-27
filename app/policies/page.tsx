@@ -7,10 +7,13 @@ import { TermsSection } from '@/components/policies/terms-section';
 import { DeletionSection } from '@/components/policies/deletion-section';
 import { LAST_UPDATED, CONTACT_EMAIL } from '@/components/policies/constants';
 
+const description =
+  'Política de privacidad, términos de servicio y eliminación de datos de TurnIO.';
+
 export const metadata: Metadata = {
-  title: 'TurnIO — Políticas de Privacidad y Términos',
-  description:
-    'Política de privacidad, términos de servicio y eliminación de datos de TurnIO.',
+  title: 'Políticas de Privacidad y Términos',
+  description,
+  openGraph: { title: 'Políticas y Términos | TurnIO', description, url: '/policies' },
 };
 
 const NAV_ITEMS = [
