@@ -5,5 +5,6 @@ import { API_BASE_URL } from '@/lib/constants';
 export const authClient = createAuthClient({
   baseURL: API_BASE_URL.replace(/\/api$/, ''),
   basePath: '/api/auth',
+  
   plugins: [adminClient()],
 });
