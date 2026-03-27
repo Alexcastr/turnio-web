@@ -5,13 +5,14 @@ import { useCreateAppointment } from '@/lib/hooks/use-create-appointment';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ArrowLeft, AlertCircle } from 'lucide-react';
-import { formatDate, formatTime, formatDuration, formatPrice } from '@/lib/utils/format';
+import { formatDate, formatTime, formatDuration, formatPrice, toISOWithTimezone } from '@/lib/utils/format';
 
 interface StepConfirmationProps {
   slug: string;
+  timezone: string;
 }
 
-export function StepConfirmation({ slug }: StepConfirmationProps) {
+export function StepConfirmation({ slug, timezone }: StepConfirmationProps) {
   const {
     selectedService,
     selectedStaff,
@@ -27,7 +28,7 @@ export function StepConfirmation({ slug }: StepConfirmationProps) {
   const handleConfirm = () => {
     if (!selectedService || !selectedDate || !selectedTime || !contactInfo) return;
 
-    const startAt = `${selectedDate}T${selectedTime}`;
+    const startAt = toISOWithTimezone(selectedDate, selectedTime, timezone);
 
     mutation.mutate(
       {

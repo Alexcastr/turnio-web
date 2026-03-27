@@ -54,20 +54,16 @@ async function assertItAdminSession() {
     redirect(LOGIN_PATH);
   }
 
-  try {
-    const response = await fetch(`${API_BASE_URL}/business/admin/owners?page=1&limit=1`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${sessionToken}`,
-      },
-      cache: 'no-store',
-    });
+  const response = await fetch(`${API_BASE_URL}/business/admin/owners?page=1&limit=1`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${sessionToken}`,
+    },
+    cache: 'no-store',
+  }).catch(() => null);
 
-    if (response.status === 401 || response.status === 403) {
-      redirect(LOGIN_PATH);
-    }
-  } catch {
-    // Keep current behavior on transient network issues.
+  if (!response || response.status === 401 || response.status === 403) {
+    redirect(LOGIN_PATH);
   }
 }
 

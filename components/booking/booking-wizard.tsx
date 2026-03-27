@@ -62,7 +62,7 @@ export function BookingWizard({ slug, business }: BookingWizardProps) {
       )}
       {currentStep === 'time' && <StepTimePick slug={slug} />}
       {currentStep === 'contact' && <StepContactForm />}
-      {currentStep === 'confirm' && <StepConfirmation slug={slug} />}
+      {currentStep === 'confirm' && <StepConfirmation slug={slug} timezone={business.timezone} />}
     </div>
   );
 }
