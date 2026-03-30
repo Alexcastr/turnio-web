@@ -35,11 +35,11 @@ Los mismos trabajadores también pueden **agendar citas desde la app** y agregar
 
 | Agenda | Clientes | Servicios |
 |--------|----------|-----------|
-| ![Agenda](public/screenshots/mobile/agenda.png) | ![Clientes](public/screenshots/mobile/clients.png) | ![Servicios](public/screenshots/mobile/services.png) |
+| ![Agenda](public/screenshots/mobile/agenda.webp) | ![Clientes](public/screenshots/mobile/clients.webp) | ![Servicios](public/screenshots/mobile/services.webp) |
 
 | Equipo | Configuración |
 |--------|---------------|
-| ![Equipo](public/screenshots/mobile/team.png) | ![Config](public/screenshots/mobile/config.png) |
+| ![Equipo](public/screenshots/mobile/team.webp) | ![Config](public/screenshots/mobile/config.webp) |
 
 ### Panel de administración IT
 
