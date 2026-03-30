@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TurnIO — Sistema de Agendamiento Inteligente
 
-## Getting Started
+> Plataforma de reservas para negocios locales que conecta clientes con trabajadores mediante agendamiento web y notificaciones WhatsApp automatizadas.
 
-First, run the development server:
+**Demo:** [https://turnio.site](https://turnio.site)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Descripción
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+TurnIO permite a negocios locales (barberías, veterinarias, consultorios, etc.) gestionar sus citas de forma profesional sin complicaciones.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**Flujo completo:**
 
-## Learn More
+1. El **administrador IT** crea el negocio desde la web y registra al dueño.
+2. El **dueño (owner)** descarga la app móvil, configura su horario y conecta su WhatsApp desde Ajustes.
+3. Puede agregar **trabajadores**, quienes también ingresan a la app y definen sus horarios disponibles.
+4. Desde Configuración se genera un **link directo al negocio** para compartir con clientes.
+5. Los **clientes** acceden a [turnio.site](https://turnio.site), buscan el negocio o usan el link directo, eligen servicio, fecha, horario e ingresan su nombre y WhatsApp.
+6. El **trabajador recibe la solicitud** en la app y acepta o rechaza.
+7. Al aceptar, el **cliente recibe confirmación automática por WhatsApp**.
+8. Se envía un **recordatorio automático** 15 minutos (o 1 hora) antes de la cita.
 
-To learn more about Next.js, take a look at the following resources:
+Los mismos trabajadores también pueden **agendar citas desde la app** y agregar clientes manualmente.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Capturas de pantalla
 
-## Deploy on Vercel
+### Web — Agendamiento
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+![Web](public/screenshots/web.png)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### App Móvil
+
+| Agenda | Clientes | Servicios |
+|--------|----------|-----------|
+| ![Agenda](public/screenshots/mobile/agenda.png) | ![Clientes](public/screenshots/mobile/clients.png) | ![Servicios](public/screenshots/mobile/services.png) |
+
+| Equipo | Configuración |
+|--------|---------------|
+| ![Equipo](public/screenshots/mobile/team.png) | ![Config](public/screenshots/mobile/config.png) |
+
+### Panel de administración IT
+
+| Crear owner | Panel IT |
+|-------------|----------|
+| ![Crear owner](public/screenshots/it-admin-create-owner.png) | ![IT Admin](public/screenshots/it-admin.png) |
+
+### Infraestructura en CubePath
+
+| Dokploy Deploy | CubePath |
+|----------------|----------|
+| ![Dokploy](public/screenshots/dokploye-deploy.png) | ![CubePath](public/screenshots/cubepath.png) |
+
+---
+
+## Cómo se utilizó CubePath
+
+Toda la infraestructura backend corre en una **VPS de CubePath** gestionada con **Dokploy**:
+
+| Servicio | Tecnología | Plataforma |
+|----------|-----------|------------|
+| API Backend | NestJS | Dokploy (CubePath VPS) |
+| Base de datos | PostgreSQL | Dokploy (CubePath VPS) |
+| Mensajería WhatsApp | Evolution API | Dokploy (CubePath VPS) |
+| Cache / Sesiones | Redis | Dokploy (CubePath VPS) |
+| Frontend | Next.js | Vercel |
+
+> **Nota sobre recursos:** Con los créditos de CubePath intenté desplegar también el frontend en la VPS, pero la capacidad de disco disponible no lo permitía junto con todos los servicios backend. Opté por mantener la infraestructura crítica (API, DB, WhatsApp, Redis) en CubePath y el frontend en Vercel, logrando un equilibrio óptimo sin sobrecargar el VPS.
+
+---
+
+## Stack tecnológico
+
+- **Frontend:** Next.js (Vercel)
+- **App Móvil:** React Native (Expo)
+- **Backend:** NestJS
+- **Base de datos:** PostgreSQL
+- **Cache:** Redis
+- **WhatsApp:** Evolution API
+- **Infraestructura:** CubePath VPS + Dokploy
+
+---
+
+## Contacto
+
+**Email:** castro.t.alex@gmail.com
