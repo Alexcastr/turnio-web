@@ -48,13 +48,30 @@ export function PrivacySection() {
           ),
         },
         {
-          title: '4. Seguridad',
+          title: '4. Integración con WhatsApp',
+          content: (
+            <>
+              <p className="mb-2">
+                Cuando un propietario vincula su número de WhatsApp, TurnIO accede a la conexión
+                <span className="font-medium text-text-primary"> exclusivamente para enviar notificaciones de citas salientes</span> (solo envío).
+              </p>
+              <ul className="space-y-1.5">
+                <li><span className="font-medium text-text-primary">No leemos</span> conversaciones, contactos personales ni estados de WhatsApp.</li>
+                <li><span className="font-medium text-text-primary">No almacenamos</span> el contenido de ningún chat ni historial de mensajes personales.</li>
+                <li>La conexión se realiza a través de la función de <span className="font-medium text-text-primary">Dispositivos Vinculados</span> de WhatsApp — la misma tecnología que usa WhatsApp Web.</li>
+                <li>El propietario puede desvincular su número en cualquier momento desde la configuración de la app.</li>
+              </ul>
+            </>
+          ),
+        },
+        {
+          title: '5. Seguridad',
           content: (
             <p>Tus datos se almacenan en servidores seguros con cifrado en tránsito (HTTPS/TLS). Implementamos medidas razonables para proteger tu información contra acceso no autorizado.</p>
           ),
         },
         {
-          title: '5. Tus derechos',
+          title: '6. Tus derechos',
           content: (
             <>
               <p className="mb-2">Conforme a la Ley 1581 de 2012 (Colombia), tienes derecho a:</p>
@@ -69,13 +86,13 @@ export function PrivacySection() {
           ),
         },
         {
-          title: '6. Menores de edad',
+          title: '7. Menores de edad',
           content: (
             <p>TurnIO no está dirigido a menores de 13 años. No recopilamos intencionalmente datos de menores.</p>
           ),
         },
         {
-          title: '7. Cambios a esta política',
+          title: '8. Cambios a esta política',
           content: (
             <p>Podemos actualizar esta política periódicamente. Notificaremos cambios significativos a través de la app o por correo electrónico.</p>
           ),

@@ -53,19 +53,37 @@ export function TermsSection() {
           ),
         },
         {
-          title: '6. Limitación de responsabilidad',
+          title: '6. Integración con WhatsApp (servicio no oficial)',
+          content: (
+            <>
+              <p className="mb-2">
+                TurnIO utiliza la función de <span className="font-medium text-text-primary">Dispositivos Vinculados</span> de WhatsApp para enviar recordatorios de citas.
+                Esta integración <span className="font-medium text-text-primary">no es la API oficial en la nube de Meta (WhatsApp Business API)</span>.
+              </p>
+              <ul className="space-y-1.5">
+                <li><span className="font-medium text-text-primary">Riesgo de bloqueo:</span> Meta puede suspender o bloquear permanentemente un número que viole sus términos de uso — incluyendo cuentas que reciban reportes de spam, envíen mensajes excesivos o usen números recién adquiridos. TurnIO no tiene control sobre estas decisiones.</li>
+                <li><span className="font-medium text-text-primary">Sin responsabilidad por baneos:</span> TurnIO no se hace responsable por la suspensión, bloqueo o pérdida del número de WhatsApp del propietario derivada del uso del servicio o de reportes de spam por parte de sus clientes.</li>
+                <li><span className="font-medium text-text-primary">Continuidad del servicio:</span> Las conexiones por Dispositivos Vinculados pueden desconectarse si WhatsApp realiza actualizaciones en su plataforma. Esto puede requerir reconexión manual y no constituye un fallo imputable a TurnIO.</li>
+                <li><span className="font-medium text-text-primary">Recomendación:</span> Se aconseja usar una cuenta de <span className="font-medium text-text-primary">WhatsApp Business</span> con un número con historial de uso regular, y mantener el teléfono conectado a internet.</li>
+                <li><span className="font-medium text-text-primary">Responsabilidad del propietario:</span> Al vincular su número, el propietario acepta usar el servicio de forma responsable y asumir los riesgos derivados del uso de una integración no oficial.</li>
+              </ul>
+            </>
+          ),
+        },
+        {
+          title: '7. Limitación de responsabilidad',
           content: (
             <p>TurnIO se proporciona &quot;tal cual&quot;. No garantizamos disponibilidad ininterrumpida. No somos responsables por daños derivados del uso de la plataforma.</p>
           ),
         },
         {
-          title: '7. Terminación',
+          title: '8. Terminación',
           content: (
             <p>Nos reservamos el derecho de suspender cuentas que violen estos términos. Puedes dejar de usar TurnIO y solicitar la eliminación de tu cuenta en cualquier momento.</p>
           ),
         },
         {
-          title: '8. Legislación aplicable',
+          title: '9. Legislación aplicable',
           content: (
             <p>Estos términos se rigen por las leyes de la República de Colombia.</p>
           ),
