@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils/cn';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Search } from 'lucide-react';
 import { forwardRef, useState, useRef, useEffect, type ChangeEvent } from 'react';
 import {
   COUNTRY_CODES,
@@ -21,12 +21,13 @@ interface PhoneInputProps {
 export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
   ({ label, error, value, onChange, onBlur, name }, ref) => {
     const [open, setOpen] = useState(false);
+    const [countrySearch, setCountrySearch] = useState('');
     const dropdownRef = useRef<HTMLDivElement>(null);
+    const searchRef = useRef<HTMLInputElement>(null);
 
     // Parse country from current value
     const resolveCountry = (): CountryCode => {
       if (!value) return DEFAULT_COUNTRY;
-      // Match longest dialCode first
       const sorted = [...COUNTRY_CODES].sort(
         (a, b) => b.dialCode.length - a.dialCode.length,
       );
@@ -45,6 +46,7 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
     const handleCountrySelect = (c: CountryCode) => {
       setCountry(c);
       setOpen(false);
+      setCountrySearch('');
       onChange(`${c.dialCode}${localNumber}`);
     };
 
@@ -52,6 +54,23 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
       const raw = e.target.value.replace(/[^\d]/g, '');
       onChange(`${country.dialCode}${raw}`);
     };
+
+    const filteredCountries = countrySearch.trim()
+      ? COUNTRY_CODES.filter(
+          (c) =>
+            c.name.toLowerCase().includes(countrySearch.toLowerCase()) ||
+            c.dialCode.includes(countrySearch),
+        )
+      : COUNTRY_CODES;
+
+    // Focus search input when dropdown opens
+    useEffect(() => {
+      if (open) {
+        setTimeout(() => searchRef.current?.focus(), 50);
+      } else {
+        setCountrySearch('');
+      }
+    }, [open]);
 
     // Close dropdown on outside click
     useEffect(() => {
@@ -73,15 +92,21 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
             type="button"
             onClick={() => setOpen((o) => !o)}
             className={cn(
-              'flex items-center gap-1 rounded-l-xl border border-r-0 border-border bg-surface px-3 py-2.5 text-sm',
+              'flex items-center gap-1.5 rounded-l-xl border border-r-0 border-border bg-surface px-3 py-2.5 text-sm',
               'hover:bg-surface-hover transition-colors duration-150 cursor-pointer shrink-0',
               'focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none',
               error && 'border-status-cancelled',
+              open && 'border-primary ring-2 ring-primary/20',
             )}
           >
             <span className="text-base leading-none">{country.flag}</span>
-            <span className="text-text-secondary">{country.dialCode}</span>
-            <ChevronDown className="h-3.5 w-3.5 text-text-secondary" />
+            <span className="text-text-secondary text-xs">{country.dialCode}</span>
+            <ChevronDown
+              className={cn(
+                'h-3 w-3 text-text-secondary transition-transform duration-150',
+                open && 'rotate-180',
+              )}
+            />
           </button>
 
           {/* Phone number input */}
@@ -105,27 +130,51 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
 
           {/* Dropdown */}
           {open && (
-            <ul className="absolute left-0 top-full z-50 mt-1 max-h-60 w-72 overflow-y-auto rounded-xl border border-border bg-surface shadow-lg">
-              {COUNTRY_CODES.map((c) => (
-                <li key={c.code}>
-                  <button
-                    type="button"
-                    onClick={() => handleCountrySelect(c)}
-                    className={cn(
-                      'flex w-full items-center gap-3 px-4 py-2.5 text-sm transition-colors cursor-pointer',
-                      'hover:bg-surface-hover',
-                      c.code === country.code && 'bg-primary/10 text-primary',
-                    )}
-                  >
-                    <span className="text-base leading-none">{c.flag}</span>
-                    <span className="flex-1 text-left text-text-primary">
-                      {c.name}
-                    </span>
-                    <span className="text-text-secondary">{c.dialCode}</span>
-                  </button>
-                </li>
-              ))}
-            </ul>
+            <div className="absolute left-0 top-full z-50 mt-1 w-72 rounded-xl border border-border bg-surface shadow-xl">
+              {/* Search */}
+              <div className="p-2 border-b border-border">
+                <div className="relative">
+                  <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-text-secondary" />
+                  <input
+                    ref={searchRef}
+                    type="text"
+                    value={countrySearch}
+                    onChange={(e) => setCountrySearch(e.target.value)}
+                    placeholder="Buscar país o código..."
+                    className="w-full rounded-lg border border-border bg-surface-hover pl-8 pr-3 py-1.5 text-xs text-text-primary placeholder:text-text-secondary outline-none focus:border-primary"
+                  />
+                </div>
+              </div>
+
+              {/* Country list */}
+              <ul className="max-h-52 overflow-y-auto">
+                {filteredCountries.length === 0 ? (
+                  <li className="px-4 py-3 text-xs text-text-secondary text-center">
+                    Sin resultados
+                  </li>
+                ) : (
+                  filteredCountries.map((c) => (
+                    <li key={c.code}>
+                      <button
+                        type="button"
+                        onClick={() => handleCountrySelect(c)}
+                        className={cn(
+                          'flex w-full items-center gap-3 px-4 py-2.5 text-sm transition-colors cursor-pointer',
+                          'hover:bg-surface-hover',
+                          c.code === country.code && 'bg-primary/10 text-primary',
+                        )}
+                      >
+                        <span className="text-base leading-none shrink-0">{c.flag}</span>
+                        <span className="flex-1 text-left text-text-primary text-xs truncate">
+                          {c.name}
+                        </span>
+                        <span className="text-text-secondary text-xs shrink-0">{c.dialCode}</span>
+                      </button>
+                    </li>
+                  ))
+                )}
+              </ul>
+            </div>
           )}
         </div>
         {error && (

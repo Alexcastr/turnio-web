@@ -18,11 +18,11 @@ export function CollapsibleSection({
   const [open, setOpen] = useState(defaultOpen);
 
   return (
-    <div className="border border-border rounded-xl overflow-hidden">
+    <div className="border border-border rounded-xl">
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between px-4 py-3 bg-surface hover:bg-surface-elevated transition-colors duration-150 cursor-pointer"
+        className="w-full flex items-center justify-between px-4 py-3 bg-surface hover:bg-surface-elevated transition-colors duration-150 cursor-pointer rounded-xl"
       >
         <span className="text-sm font-semibold text-text-primary">
           {title}
@@ -34,7 +34,9 @@ export function CollapsibleSection({
           )}
         />
       </button>
-      {open && <div className="p-4 border-t border-border">{children}</div>}
+      {open && (
+        <div className="p-4 border-t border-border rounded-b-xl">{children}</div>
+      )}
     </div>
   );
 }
