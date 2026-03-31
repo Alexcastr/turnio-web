@@ -35,7 +35,6 @@ export const COUNTRY_CODES: CountryCode[] = [
   { code: 'BR', dialCode: '+55',  flag: '🇧🇷', name: 'Brasil' },
   { code: 'CA', dialCode: '+1',   flag: '🇨🇦', name: 'Canadá' },
   { code: 'PT', dialCode: '+351', flag: '🇵🇹', name: 'Portugal' },
-  // luxemburgo
   { code: 'LU', dialCode: '+352', flag: '🇱🇺', name: 'Luxemburgo' },
   { code: 'FR', dialCode: '+33',  flag: '🇫🇷', name: 'Francia' },
   { code: 'DE', dialCode: '+49',  flag: '🇩🇪', name: 'Alemania' },
