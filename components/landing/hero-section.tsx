@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
 import { Search, CalendarCheck, Loader2, Store } from 'lucide-react';
 import { useBusinesses } from '@/lib/hooks/use-businesses';
 import { BusinessCard } from './business-card';
@@ -11,7 +10,6 @@ export function HeroSection() {
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [page, setPage] = useState(1);
-  const router = useRouter();
 
   useEffect(() => {
     setPage(1);
@@ -20,15 +18,6 @@ export function HeroSection() {
   }, [search]);
 
   const { data, isLoading, isFetching } = useBusinesses(debouncedSearch, page);
-
-  const handleDirectSearch = useCallback(
-    (e: React.FormEvent) => {
-      e.preventDefault();
-      const trimmed = search.trim().toLowerCase().replace(/\s+/g, '-');
-      if (trimmed) router.push(`/${trimmed}`);
-    },
-    [search, router],
-  );
 
   return (
     <section className="relative overflow-hidden bg-linear-to-br from-primary-light via-background to-background">
@@ -54,10 +43,7 @@ export function HeroSection() {
         </div>
 
         {/* Search bar */}
-        <form
-          onSubmit={handleDirectSearch}
-          className="mx-auto mb-8 max-w-lg"
-        >
+        <div className="mx-auto mb-8 max-w-lg">
           <div className="relative">
             <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-text-secondary" />
             <input
@@ -71,7 +57,7 @@ export function HeroSection() {
               <Loader2 className="absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-text-secondary" />
             )}
           </div>
-        </form>
+        </div>
 
         {/* Business list */}
         <div>
