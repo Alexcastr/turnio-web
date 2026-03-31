@@ -7,12 +7,14 @@ import {
   assignUser,
   createBusinessForUser,
   listOwners,
+  updateOwner,
   type OwnersQuery,
 } from '@/lib/api/admin';
 import type {
   ProvisionOwnerData,
   AssignUserData,
   CreateBusinessData,
+  UpdateOwnerData,
 } from '@/lib/schemas/admin';
 
 async function getToken(): Promise<string> {
@@ -59,6 +61,19 @@ export function useCreateBusiness() {
     mutationFn: async (data: CreateBusinessData) => {
       const token = await getToken();
       return createBusinessForUser(data, token);
+    },
+  });
+}
+
+export function useUpdateOwner() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ userId, data }: { userId: string; data: UpdateOwnerData }) => {
+      const token = await getToken();
+      return updateOwner(userId, data, token);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin-owners'] });
     },
   });
 }

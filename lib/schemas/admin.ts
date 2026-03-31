@@ -20,7 +20,9 @@ export const provisionOwnerSchema = z.object({
   ownerName: z.string().min(1, 'Nombre requerido'),
   businessName: z.string().min(1, 'Nombre del negocio requerido'),
   category: z.string().min(1, 'Categoría requerida'),
-  phone: z.string().min(1, 'Teléfono requerido'),
+  phone: z
+    .string()
+    .check(z.regex(/^\+\d{1,4}\d{7,15}$/, 'Ingresa un número de teléfono válido con código de país')),
   timezone: z.string().optional(),
   schedules: z.array(scheduleSchema),
   services: z.array(serviceSchema).min(1, 'Agrega al menos un servicio'),
@@ -42,6 +44,20 @@ export const createBusinessSchema = z.object({
   services: z.array(serviceSchema).optional(),
 });
 
+export const updateOwnerSchema = z.object({
+  ownerName: z.string().min(1).optional(),
+  email: z.string().email('Email inválido').optional(),
+  businessName: z.string().min(1).optional(),
+  category: z.string().min(1).optional(),
+  phone: z
+    .string()
+    .check(z.regex(/^\+\d{1,4}\d{7,15}$/, 'Ingresa un número válido con código de país'))
+    .optional(),
+  timezone: z.string().optional(),
+  isActive: z.boolean().optional(),
+});
+
 export type ProvisionOwnerData = z.infer<typeof provisionOwnerSchema>;
 export type AssignUserData = z.infer<typeof assignUserSchema>;
 export type CreateBusinessData = z.infer<typeof createBusinessSchema>;
+export type UpdateOwnerData = z.infer<typeof updateOwnerSchema>;

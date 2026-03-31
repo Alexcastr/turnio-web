@@ -3,6 +3,7 @@ import type {
   ProvisionOwnerData,
   AssignUserData,
   CreateBusinessData,
+  UpdateOwnerData,
 } from '@/lib/schemas/admin';
 
 async function adminFetch<T>(
@@ -94,4 +95,11 @@ export function createBusinessForUser(
   token: string,
 ) {
   return adminFetch('/business/admin/create-business-for-user', token, { body: data });
+}
+
+export function updateOwner(userId: string, data: UpdateOwnerData, token: string) {
+  return adminFetch(`/business/admin/owners/${userId}`, token, {
+    method: 'PATCH',
+    body: data,
+  });
 }

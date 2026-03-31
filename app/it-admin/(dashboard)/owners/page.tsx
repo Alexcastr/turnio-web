@@ -4,6 +4,7 @@ import { useRef, useState } from 'react';
 import { useOwners } from '@/lib/hooks/use-admin';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { EditOwnerModal } from '@/components/admin/edit-owner-modal';
 import {
   Search,
   ChevronLeft,
@@ -11,12 +12,15 @@ import {
   Building2,
   Mail,
   Phone,
+  Pencil,
 } from 'lucide-react';
+import type { OwnerItem } from '@/lib/api/admin';
 
 export default function OwnersPage() {
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [page, setPage] = useState(1);
+  const [editingOwner, setEditingOwner] = useState<OwnerItem | null>(null);
   const limit = 10;
 
   const debounceRef = useRef<ReturnType<typeof setTimeout>>(null);
@@ -41,6 +45,13 @@ export default function OwnersPage() {
 
   return (
     <div>
+      {editingOwner && (
+        <EditOwnerModal
+          owner={editingOwner}
+          onClose={() => setEditingOwner(null)}
+        />
+      )}
+
       <div className="mb-6">
         <h1 className="text-xl font-semibold text-text-primary">
           Propietarios
@@ -91,7 +102,7 @@ export default function OwnersPage() {
         <div className="flex flex-col gap-3">
           {owners.map((owner) => (
             <Card key={owner.id} padding="none">
-              <div className="p-4 flex flex-col sm:flex-row sm:items-center gap-3">
+              <div className="p-4 flex flex-col sm:flex-row sm:items-center gap-3 group">
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-text-primary truncate">
                     {owner.name}
@@ -103,6 +114,15 @@ export default function OwnersPage() {
                     </span>
                   </div>
                 </div>
+
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => setEditingOwner(owner)}
+                  className="shrink-0"
+                >
+                  <Pencil className="w-3.5 h-3.5" />
+                </Button>
 
                 {owner.business && (
                   <div className="flex items-start gap-2 sm:text-right">
@@ -139,7 +159,6 @@ export default function OwnersPage() {
             </Card>
           ))}
 
-          {/* Pagination */}
           {meta && meta.totalPages > 1 && (
             <div className="flex items-center justify-between pt-2">
               <span className="text-xs text-text-secondary">

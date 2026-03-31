@@ -1,6 +1,6 @@
 'use client';
 
-import { useForm, FormProvider } from 'react-hook-form';
+import { useForm, FormProvider, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   provisionOwnerSchema,
@@ -9,6 +9,7 @@ import {
 import { useProvisionOwner } from '@/lib/hooks/use-admin';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { PhoneInput } from '@/components/ui/phone-input';
 import { CollapsibleSection } from '@/components/admin/collapsible-section';
 import { ScheduleFields } from '@/components/admin/schedule-fields';
 import { ServiceFields } from '@/components/admin/service-fields';
@@ -63,6 +64,7 @@ export default function ProvisionOwnerPage() {
 
   const {
     register,
+    control,
     formState: { errors },
   } = methods;
 
@@ -122,11 +124,19 @@ export default function ProvisionOwnerPage() {
                 error={errors.category?.message}
                 placeholder="Ej: Barbería"
               />
-              <Input
-                label="Teléfono"
-                {...register('phone')}
-                error={errors.phone?.message}
-                placeholder="+573001112233"
+              <Controller
+                name="phone"
+                control={control}
+                render={({ field }) => (
+                  <PhoneInput
+                    label="Teléfono"
+                    error={errors.phone?.message}
+                    value={field.value}
+                    onChange={field.onChange}
+                    onBlur={field.onBlur}
+                    name={field.name}
+                  />
+                )}
               />
               <Input
                 label="Zona horaria"
