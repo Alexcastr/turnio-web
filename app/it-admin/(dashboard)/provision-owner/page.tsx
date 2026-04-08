@@ -37,7 +37,6 @@ export default function ProvisionOwnerPage() {
     resolver: zodResolver(provisionOwnerSchema),
     defaultValues: {
       email: '',
-      password: '',
       ownerName: '',
       businessName: '',
       category: '',
@@ -75,7 +74,7 @@ export default function ProvisionOwnerPage() {
           Crear Propietario
         </h1>
         <p className="text-sm text-text-secondary mt-1">
-          Crea una cuenta de propietario con su negocio, horarios y servicios.
+          Crea una cuenta de propietario con su negocio, horarios y servicios. El propietario recibirá un email para configurar su contraseña.
         </p>
       </div>
 
@@ -98,14 +97,6 @@ export default function ProvisionOwnerPage() {
                 {...register('email')}
                 error={errors.email?.message}
                 placeholder="correo@ejemplo.com"
-              />
-              <Input
-                label="Contraseña"
-                type="password"
-                {...register('password')}
-                error={errors.password?.message}
-                placeholder="Mínimo 8 caracteres"
-                className="sm:col-span-2"
               />
             </div>
           </CollapsibleSection>
