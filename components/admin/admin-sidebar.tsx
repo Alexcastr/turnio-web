@@ -13,6 +13,7 @@ import {
   Shield,
   Menu,
   X,
+  MessageCircle,
 } from 'lucide-react';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 
@@ -36,6 +37,11 @@ const NAV_ITEMS = [
     label: 'Crear Negocio',
     href: '/it-admin/create-business',
     icon: Building2,
+  },
+  {
+    label: 'WhatsApp Turnio',
+    href: '/it-admin/whatsapp',
+    icon: MessageCircle,
   },
 ] as const;
 

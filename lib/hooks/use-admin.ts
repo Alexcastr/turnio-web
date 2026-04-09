@@ -8,6 +8,10 @@ import {
   createBusinessForUser,
   listOwners,
   updateOwner,
+  getSharedWaStatus,
+  setupSharedWa,
+  getSharedWaPairingCode,
+  disconnectSharedWa,
   type OwnersQuery,
 } from '@/lib/api/admin';
 import type {
@@ -74,6 +78,55 @@ export function useUpdateOwner() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-owners'] });
+    },
+  });
+}
+
+// ── Shared WhatsApp ───────────────────────────────────────
+
+export function useSharedWaStatus(enabled = true) {
+  return useQuery({
+    queryKey: ['admin-shared-wa-status'],
+    queryFn: async () => {
+      const token = await getToken();
+      return getSharedWaStatus(token);
+    },
+    enabled,
+    staleTime: 0,
+  });
+}
+
+export function useSetupSharedWa() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async () => {
+      const token = await getToken();
+      return setupSharedWa(token);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin-shared-wa-status'] });
+    },
+  });
+}
+
+export function useSharedWaPairingCode() {
+  return useMutation({
+    mutationFn: async (phone: string) => {
+      const token = await getToken();
+      return getSharedWaPairingCode(phone, token);
+    },
+  });
+}
+
+export function useDisconnectSharedWa() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async () => {
+      const token = await getToken();
+      return disconnectSharedWa(token);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin-shared-wa-status'] });
     },
   });
 }

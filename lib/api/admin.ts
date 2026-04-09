@@ -103,3 +103,53 @@ export function updateOwner(userId: string, data: UpdateOwnerData, token: string
     body: data,
   });
 }
+
+// ── Shared WhatsApp (IT Admin) ────────────────────────────
+
+export interface SharedWaStatus {
+  instanceName?: string;
+  configured: boolean;
+  connected: boolean;
+  phoneNumber?: string | null;
+  profileName?: string | null;
+  message?: string;
+}
+
+export interface SharedWaSetupResult {
+  instanceName: string;
+  alreadyExists?: boolean;
+  connected?: boolean;
+  instanceId?: string;
+  status?: string;
+  message: string;
+}
+
+export interface SharedWaPairingResult {
+  instanceName: string;
+  pairingCode: string;
+  expiresAt: string;
+}
+
+export function getSharedWaStatus(token: string) {
+  return adminFetch<SharedWaStatus>('/whatsapp/admin/shared/status', token);
+}
+
+export function setupSharedWa(token: string) {
+  return adminFetch<SharedWaSetupResult>('/whatsapp/admin/shared/setup', token, {
+    method: 'POST',
+  });
+}
+
+export function getSharedWaPairingCode(phone: string, token: string) {
+  return adminFetch<SharedWaPairingResult>(
+    '/whatsapp/admin/shared/pairing-code',
+    token,
+    { body: { phone } },
+  );
+}
+
+export function disconnectSharedWa(token: string) {
+  return adminFetch<{ message: string }>('/whatsapp/admin/shared/disconnect', token, {
+    method: 'DELETE',
+  });
+}
