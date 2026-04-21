@@ -12,6 +12,11 @@ import { PhoneInput } from '@/components/ui/phone-input';
 import { toast } from '@/components/admin/toast';
 import type { OwnerItem } from '@/lib/api/admin';
 
+function normalizePhone(p: string) {
+  if (!p) return '';
+  return p.startsWith('+') ? p : `+${p}`;
+}
+
 interface EditOwnerModalProps {
   owner: OwnerItem;
   onClose: () => void;
@@ -33,7 +38,7 @@ export function EditOwnerModal({ owner, onClose }: EditOwnerModalProps) {
       email: owner.email,
       businessName: owner.business?.name ?? '',
       category: owner.business?.category ?? '',
-      phone: owner.business?.phone ?? '',
+      phone: normalizePhone(owner.business?.phone ?? ''),
       timezone: '',
       isActive: owner.business?.isActive ?? true,
     },
