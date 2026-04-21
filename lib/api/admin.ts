@@ -104,6 +104,63 @@ export function updateOwner(userId: string, data: UpdateOwnerData, token: string
   });
 }
 
+// ── User & Business search ───────────────────────────────
+
+export interface AdminUser {
+  id: string;
+  name: string;
+  email: string;
+  business?: { id: string; name: string; category: string } | null;
+}
+
+export interface AdminUserSearchResult {
+  items: AdminUser[];
+  meta: { page: number; limit: number; total: number; totalPages: number };
+}
+
+export interface AdminBusiness {
+  id: string;
+  name: string;
+  category: string;
+  phone: string;
+  isActive: boolean;
+  staff?: Array<{ id: string; name: string; email: string; role: string }>;
+}
+
+export interface AdminBusinessSearchResult {
+  items: AdminBusiness[];
+  meta: { page: number; limit: number; total: number; totalPages: number };
+}
+
+const EMPTY_USERS: AdminUserSearchResult = { items: [], meta: { page: 1, limit: 8, total: 0, totalPages: 0 } };
+const EMPTY_BUSINESSES: AdminBusinessSearchResult = { items: [], meta: { page: 1, limit: 8, total: 0, totalPages: 0 } };
+
+export async function searchAdminUsers(search: string, limit = 8, token: string): Promise<AdminUserSearchResult> {
+  const params = new URLSearchParams({ limit: String(limit) });
+  if (search) params.set('search', search);
+  const res = await fetch(`${API_BASE_URL}/business/admin/users?${params}`, {
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+  });
+  if (!res.ok) return EMPTY_USERS;
+  const json = await res.json().catch(() => null);
+  if (!json) return EMPTY_USERS;
+  if (Array.isArray(json)) return { items: json, meta: { page: 1, limit, total: json.length, totalPages: 1 } };
+  return json as AdminUserSearchResult;
+}
+
+export async function searchAdminBusinesses(search: string, limit = 8, token: string): Promise<AdminBusinessSearchResult> {
+  const params = new URLSearchParams({ limit: String(limit) });
+  if (search) params.set('search', search);
+  const res = await fetch(`${API_BASE_URL}/business/admin/businesses?${params}`, {
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+  });
+  if (!res.ok) return EMPTY_BUSINESSES;
+  const json = await res.json().catch(() => null);
+  if (!json) return EMPTY_BUSINESSES;
+  if (Array.isArray(json)) return { items: json, meta: { page: 1, limit, total: json.length, totalPages: 1 } };
+  return json as AdminBusinessSearchResult;
+}
+
 // ── Shared WhatsApp (IT Admin) ────────────────────────────
 
 export interface SharedWaStatus {

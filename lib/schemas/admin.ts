@@ -10,7 +10,7 @@ const scheduleSchema = z.object({
 const serviceSchema = z.object({
   name: z.string().min(1, 'Nombre requerido'),
   durationMin: z.number().min(5, 'Mínimo 5 minutos'),
-  price: z.number().min(0).optional(),
+  price: z.number().min(0, 'El precio debe ser 0 o mayor'),
   color: z.string().optional(),
 });
 

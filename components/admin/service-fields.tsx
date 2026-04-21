@@ -73,7 +73,8 @@ export function ServiceFields() {
                 label="Precio"
                 type="number"
                 {...register(`services.${index}.price`, { valueAsNumber: true })}
-                placeholder="0 (opcional)"
+                error={serviceErrors?.price?.message}
+                placeholder="Ej: 15000"
               />
               <div className="flex flex-col gap-1.5">
                 <span className="text-sm font-medium text-text-primary">
@@ -110,7 +111,7 @@ export function ServiceFields() {
           append({
             name: '',
             durationMin: 30,
-            price: undefined,
+            price: 0,
             color: '#10B981',
           })
         }

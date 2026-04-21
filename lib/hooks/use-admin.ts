@@ -8,6 +8,8 @@ import {
   createBusinessForUser,
   listOwners,
   updateOwner,
+  searchAdminUsers,
+  searchAdminBusinesses,
   getSharedWaStatus,
   setupSharedWa,
   getSharedWaPairingCode,
@@ -79,6 +81,30 @@ export function useUpdateOwner() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-owners'] });
     },
+  });
+}
+
+export function useSearchAdminUsers(search: string, enabled = true) {
+  return useQuery({
+    queryKey: ['admin-users-search', search],
+    queryFn: async () => {
+      const token = await getToken();
+      return searchAdminUsers(search, 8, token);
+    },
+    enabled,
+    staleTime: 10_000,
+  });
+}
+
+export function useSearchAdminBusinesses(search: string, enabled = true) {
+  return useQuery({
+    queryKey: ['admin-businesses-search', search],
+    queryFn: async () => {
+      const token = await getToken();
+      return searchAdminBusinesses(search, 8, token);
+    },
+    enabled,
+    staleTime: 10_000,
   });
 }
 
