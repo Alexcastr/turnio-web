@@ -1,8 +1,14 @@
-import Link from 'next/link';
+'use client';
+
 import { Button } from '@/components/ui/button';
 import { SearchX } from 'lucide-react';
 
 export default function BusinessNotFound() {
+  function goToApp() {
+    // Try deep link; if the app isn't installed the browser ignores it
+    window.location.href = 'turnio://';
+  }
+
   return (
     <main className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="text-center">
@@ -15,9 +21,9 @@ export default function BusinessNotFound() {
         <p className="mb-6 text-sm text-text-secondary">
           El negocio que buscas no existe o no está disponible.
         </p>
-        <Link href="/">
-          <Button variant="secondary">Volver al inicio</Button>
-        </Link>
+        <Button variant="secondary" onClick={goToApp}>
+          Volver al inicio
+        </Button>
       </div>
     </main>
   );
