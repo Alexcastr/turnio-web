@@ -120,18 +120,23 @@ function SetPasswordForm() {
     }
 
     setLoading(true);
-    const result = await authClient.resetPassword({
-      newPassword: password,
-      token: token!,
-    });
+    try {
+      const result = await authClient.resetPassword({
+        newPassword: password,
+        token: token!,
+      });
 
-    if (result.error) {
-      setError(result.error.message || 'El enlace es inválido o ha expirado.');
+      if (result.error) {
+        setError(result.error.message || 'El enlace es inválido o ha expirado.');
+        setLoading(false);
+        return;
+      }
+
+      setDone(true);
+    } catch {
+      setError('Error de conexión. Verifica tu internet e inténtalo de nuevo.');
       setLoading(false);
-      return;
     }
-
-    setDone(true);
   }
 
   return (

@@ -73,7 +73,7 @@ export function StepConfirmation({ slug, timezone }: StepConfirmationProps) {
           <Row label="Servicio" value={selectedService.name} />
           <Row
             label="Duración"
-            value={formatDuration(selectedService.durationMinutes)}
+            value={formatDuration(selectedService.durationMin)}
           />
           <Row
             label="Precio"

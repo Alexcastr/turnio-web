@@ -32,7 +32,7 @@ export function ServiceCard({ service, selected, onSelect }: ServiceCardProps) {
       <div className="mt-3 flex items-center gap-4 text-sm text-text-secondary">
         <span className="inline-flex items-center gap-1">
           <Clock className="h-3.5 w-3.5" />
-          {formatDuration(service.durationMinutes)}
+          {formatDuration(service.durationMin)}
         </span>
         <span className="inline-flex items-center gap-1">
           <DollarSign className="h-3.5 w-3.5" />
